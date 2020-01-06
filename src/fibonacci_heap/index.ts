@@ -3,7 +3,6 @@ type compareFunc<T> = (a: T, b: T) => boolean;
 const PHI = (Math.sqrt(5) + 1) / 2;
 
 class FibonacciHeapNode<T> {
-  degree: number;
   left: FibonacciHeapNode<T>;
   right: FibonacciHeapNode<T>;
   parent: FibonacciHeapNode<T> | null;
@@ -12,7 +11,6 @@ class FibonacciHeapNode<T> {
   key: T;
 
   constructor(key: T) {
-    this.degree = 0;
     this.left = this;
     this.right = this;
     this.parent = null;
@@ -21,12 +19,16 @@ class FibonacciHeapNode<T> {
     this.key = key;
   }
 
+  degree(): number {
+    return this.children.length;
+  }
+
   toString(): string {
     return `key: ${this.key}, left: ${this.left.key}, right: ${
       this.right.key
-      }, degree: ${this.degree}, parent: ${
+    }, degree: ${this.degree()}, parent: ${
       this.parent ? this.parent.key : null
-      }, children: ${JSON.stringify(this.children.map(child => child.key))}`;
+    }, children: ${JSON.stringify(this.children.map(child => child.key))}`;
   }
 }
 
@@ -38,7 +40,11 @@ class FibonacciHeap<T> {
   constructor(compareFunc?: compareFunc<T>) {
     this.count = 0;
     this.root = null;
-    this.compareFunc = compareFunc || ((a: T, b: T) => a < b);
+    this.compareFunc = (a: T, b: T) => {
+      if (a === null) return true;
+      if (compareFunc) return compareFunc(a, b);
+      else return a < b;
+    }
   }
 
   private insertAt(
@@ -74,7 +80,6 @@ class FibonacciHeap<T> {
     y.parent = x;
     y.mark = false;
     x.children.push(y);
-    x.degree++;
   }
 
   private consolidate() {
@@ -96,7 +101,7 @@ class FibonacciHeap<T> {
 
     for (const current of rootList) {
       let x = current;
-      let degree = x.degree;
+      let degree = x.degree();
       while (degree < upperLimit && auxillary[degree] !== null) {
         let y = auxillary[degree]!;
         if (this.compareFunc(y.key, x.key)) {
@@ -109,7 +114,7 @@ class FibonacciHeap<T> {
         degree++;
       }
       auxillary[degree] = x;
-    };
+    }
 
     this.root = null;
     for (let i = 0; i <= upperLimit; ++i) {
@@ -122,7 +127,26 @@ class FibonacciHeap<T> {
     }
   }
 
-  dfs(node: FibonacciHeapNode<T>) {
+  private cut(node: FibonacciHeapNode<T>, parent: FibonacciHeapNode<T>) {
+    const index = parent.children.findIndex(child => child === node);
+    parent.children.splice(index, 1);
+    node.parent = null;
+    node.mark = false;
+  }
+
+  private cascadingCut(node: FibonacciHeapNode<T>) {
+    const parent = node.parent;
+    if (parent !== null) {
+      if (node.mark === false) {
+        node.mark = true;
+      } else {
+        this.cut(node, parent);
+        this.cascadingCut(parent);
+      }
+    }
+  }
+
+  private dfs(node: FibonacciHeapNode<T>) {
     console.log(node.toString());
     for (const child of node.children) {
       this.dfs(child);
@@ -166,7 +190,7 @@ class FibonacciHeap<T> {
     return top ? top.key : null;
   }
 
-  insert(key: T) {
+  insert(key: T): FibonacciHeapNode<T> {
     const node = new FibonacciHeapNode(key);
 
     this.insertAt(this.root, node);
@@ -175,6 +199,8 @@ class FibonacciHeap<T> {
     }
 
     this.count++;
+
+    return node;
   }
 
   union(that: FibonacciHeap<T>) {
@@ -196,8 +222,28 @@ class FibonacciHeap<T> {
     }
   }
 
-  // TODO
-  // decreaseKey() { }
+  decreaseKey(node: FibonacciHeapNode<T>, newKey: T) {
+    if (this.compareFunc(node.key, newKey)) {
+      console.error("New key is invalid.");
+      return;
+    }
+
+    node.key = newKey;
+    const parent = node.parent;
+    if (parent !== null && this.compareFunc(node.key, parent.key)) {
+      this.cut(node, parent);
+      this.cascadingCut(parent);
+    }
+
+    if (this.compareFunc(node.key, this.root!.key)) {
+      this.root = node;
+    }
+  }
+
+  remove(node: FibonacciHeapNode<T>) {
+    this.decreaseKey(node, null as unknown as T);
+    this.pop();
+  }
 }
 
 export default FibonacciHeap;

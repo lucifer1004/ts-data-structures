@@ -6,4 +6,5 @@
 - [x] insert
 - [x] top
 - [x] pop
-- [ ] decrease_key
+- [x] decrease_key
+- [x] remove

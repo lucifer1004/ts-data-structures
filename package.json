@@ -1,16 +1,31 @@
 {
-  "devDependencies": {
-    "@types/jest": "^24.0.25",
-    "jest": "^24.9.0",
-    "ts-jest": "^24.2.0",
-    "typescript": "^3.7.4"
-  },
   "name": "@lucifer1004/ds",
   "version": "0.0.1",
   "description": "Advanced data structures.",
   "author": "Gabriel Wu <wuzihua@pku.edu.cn>",
+  "repository": "git@github.com:lucifer1004/ts-data-structures.git",
   "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^24.0.25",
+    "husky": "^3.1.0",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.4"
+  },
   "scripts": {
-    "test": "jest"
-  }
+    "test": "jest",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "pre-commit": [
+    "yarn test",
+    "lint-staged"
+  ]
 }
