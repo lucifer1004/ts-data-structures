@@ -16,6 +16,7 @@
   },
   "scripts": {
     "test": "jest",
+    "lint": "lint-staged",
     "format": "prettier --write src/**/*.ts"
   },
   "lint-staged": {
@@ -24,8 +25,9 @@
       "git add"
     ]
   },
-  "pre-commit": [
-    "yarn test",
-    "lint-staged"
-  ]
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn test && yarn lint"
+    }
+  }
 }
