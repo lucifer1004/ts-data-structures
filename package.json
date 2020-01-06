@@ -28,7 +28,8 @@
     "test": "jest",
     "lint": "lint-staged",
     "format": "prettier --write src/**/*.ts",
-    "prepublish": "yarn test && yarn build"
+    "prepublish": "yarn test && yarn build",
+    "pub": "yarn publish --access public"
   },
   "lint-staged": {
     "*.ts": [
