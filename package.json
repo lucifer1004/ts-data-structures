@@ -1,11 +1,13 @@
 {
   "name": "@lucifer1004/ds",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Advanced data structures.",
   "author": "Gabriel Wu <wuzihua@pku.edu.cn>",
   "repository": "git@github.com:lucifer1004/ts-data-structures.git",
   "license": "MIT",
-  "files": ["build/**/*"],
+  "files": [
+    "build/**/*"
+  ],
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "umd": "build/index.umd.js",
