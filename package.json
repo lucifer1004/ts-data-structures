@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "@types/jest": "^24.0.25",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.4"
+  },
+  "name": "@lucifer1004/ds",
+  "version": "0.0.1",
+  "description": "Advanced data structures.",
+  "author": "Gabriel Wu <wuzihua@pku.edu.cn>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  }
+}
