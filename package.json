@@ -5,19 +5,30 @@
   "author": "Gabriel Wu <wuzihua@pku.edu.cn>",
   "repository": "git@github.com:lucifer1004/ts-data-structures.git",
   "license": "MIT",
+  "main": "build/index.js",
+  "umd": "build/index.umd.js",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.1",
+    "@rollup/plugin-json": "^4.0.1",
+    "@rollup/plugin-node-resolve": "^6.1.0",
     "@types/jest": "^24.0.25",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
+    "rollup": "^1.28.0",
+    "rollup-plugin-sourcemaps": "^0.5.0",
+    "rollup-plugin-typescript2": "^0.25.3",
     "ts-jest": "^24.2.0",
     "typescript": "^3.7.4"
   },
   "scripts": {
+    "build": "rollup -c rollup.config.ts",
+    "dev": "yarn build --watch",
     "test": "jest",
     "lint": "lint-staged",
-    "format": "prettier --write src/**/*.ts"
+    "format": "prettier --write src/**/*.ts",
+    "prepublish": "yarn test && yarn build"
   },
   "lint-staged": {
     "*.ts": [

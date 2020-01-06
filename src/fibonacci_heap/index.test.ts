@@ -100,15 +100,15 @@ describe("Decrease key", () => {
     const heap = new FibonacciHeap<number>();
     const node = heap.insert(1);
     heap.decreaseKey(node, 2);
-    expect(console.error).toHaveBeenCalledWith('New key is invalid.');
-  })
+    expect(console.error).toHaveBeenCalledWith("New key is invalid.");
+  });
 
   test("Of root", () => {
     const heap = new FibonacciHeap<number>();
     const node = heap.insert(1);
     heap.decreaseKey(node, 0);
     expect(heap.top()).toEqual(0);
-  })
+  });
 
   test("Of non-root", () => {
     const heap = new FibonacciHeap<number>();
@@ -118,13 +118,13 @@ describe("Decrease key", () => {
       if (i > 10) nodes.push(node);
     }
     expect(heap.pop()).toEqual(10);
-    
+
     for (let i = 9; i >= 0; --i) {
       heap.decreaseKey(nodes[i], i);
       expect(heap.top()).toEqual(i);
     }
-  })
-})
+  });
+});
 
 describe("Remove", () => {
   test("Root", () => {
@@ -133,7 +133,10 @@ describe("Remove", () => {
     heap.insert(2);
     heap.remove(node);
     expect(heap.top()).toEqual(2);
-  })
+
+    heap.remove(node);
+    expect(heap.top()).toEqual(2);
+  });
 
   test("A non-root node", () => {
     const heap = new FibonacciHeap<number>();
@@ -141,8 +144,8 @@ describe("Remove", () => {
     heap.insert(1);
     heap.remove(node);
     expect(heap.top()).toEqual(1);
-  })
-})
+  });
+});
 
 describe("Debug", () => {
   beforeAll(() => {

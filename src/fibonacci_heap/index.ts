@@ -44,7 +44,7 @@ class FibonacciHeap<T> {
       if (a === null) return true;
       if (compareFunc) return compareFunc(a, b);
       else return a < b;
-    }
+    };
   }
 
   private insertAt(
@@ -241,7 +241,8 @@ class FibonacciHeap<T> {
   }
 
   remove(node: FibonacciHeapNode<T>) {
-    this.decreaseKey(node, null as unknown as T);
+    if (node.key === null) return;
+    this.decreaseKey(node, (null as unknown) as T);
     this.pop();
   }
 }
