@@ -19,7 +19,6 @@ export default {
   plugins: [
     json(),
     typescript({
-      useTsconfigDeclarationDir: true,
       objectHashIgnoreUnknownHack: true,
       tsconfigOverride: { compilerOptions: { module: "esnext" } }
     }),
