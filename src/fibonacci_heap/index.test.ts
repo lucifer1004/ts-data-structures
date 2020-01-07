@@ -10,8 +10,8 @@ describe("Test top", () => {
   test("In a min-heap", () => {
     const heap = new FibonacciHeap<number>();
 
-    heap.insert(3);
-    heap.insert(12);
+    heap.push(3);
+    heap.push(12);
 
     expect(heap.top()).toEqual(3);
   });
@@ -19,8 +19,8 @@ describe("Test top", () => {
   test("In a max-heap", () => {
     const heap = new FibonacciHeap((a: number, b: number) => a > b);
 
-    heap.insert(3);
-    heap.insert(12);
+    heap.push(3);
+    heap.push(12);
 
     expect(heap.top()).toEqual(12);
   });
@@ -31,8 +31,8 @@ describe("Union of two min-heaps", () => {
     const a = new FibonacciHeap<number>();
 
     const b = new FibonacciHeap<number>();
-    b.insert(2);
-    b.insert(1);
+    b.push(2);
+    b.push(1);
 
     a.union(b);
     expect(a.top()).toEqual(1);
@@ -40,8 +40,8 @@ describe("Union of two min-heaps", () => {
 
   test("when the other heap is empty", () => {
     const a = new FibonacciHeap<number>();
-    a.insert(3);
-    a.insert(12);
+    a.push(3);
+    a.push(12);
 
     const b = new FibonacciHeap<number>();
 
@@ -51,12 +51,12 @@ describe("Union of two min-heaps", () => {
 
   test("when both heaps have values", () => {
     const a = new FibonacciHeap<number>();
-    a.insert(3);
-    a.insert(12);
+    a.push(3);
+    a.push(12);
 
     const b = new FibonacciHeap<number>();
-    b.insert(24);
-    b.insert(15);
+    b.push(24);
+    b.push(15);
 
     a.union(b);
     expect(a.top()).toEqual(3);
@@ -64,12 +64,12 @@ describe("Union of two min-heaps", () => {
 
   test("when both heaps have values, and top changes", () => {
     const a = new FibonacciHeap<number>();
-    a.insert(3);
-    a.insert(12);
+    a.push(3);
+    a.push(12);
 
     const b = new FibonacciHeap<number>();
-    b.insert(2);
-    b.insert(1);
+    b.push(2);
+    b.push(1);
 
     a.union(b);
     expect(a.top()).toEqual(1);
@@ -83,7 +83,7 @@ test("Pop from min-heap", () => {
     let randomNumbers = [];
     for (let i = 0; i < num; ++i) {
       const n = 0 | (Math.random() * 200);
-      heap.insert(n);
+      heap.push(n);
       randomNumbers.push(n);
     }
     randomNumbers.sort((a, b) => a - b);
@@ -98,14 +98,14 @@ describe("Decrease key", () => {
   test("Invalidly", () => {
     console.error = jest.fn();
     const heap = new FibonacciHeap<number>();
-    const node = heap.insert(1);
+    const node = heap.push(1);
     heap.decreaseKey(node, 2);
     expect(console.error).toHaveBeenCalledWith("New key is invalid.");
   });
 
   test("Of root", () => {
     const heap = new FibonacciHeap<number>();
-    const node = heap.insert(1);
+    const node = heap.push(1);
     heap.decreaseKey(node, 0);
     expect(heap.top()).toEqual(0);
   });
@@ -114,7 +114,7 @@ describe("Decrease key", () => {
     const heap = new FibonacciHeap<number>();
     const nodes = [];
     for (let i = 10; i <= 20; ++i) {
-      const node = heap.insert(i);
+      const node = heap.push(i);
       if (i > 10) nodes.push(node);
     }
     expect(heap.pop()).toEqual(10);
@@ -129,8 +129,8 @@ describe("Decrease key", () => {
 describe("Remove", () => {
   test("Root", () => {
     const heap = new FibonacciHeap<number>();
-    const node = heap.insert(1);
-    heap.insert(2);
+    const node = heap.push(1);
+    heap.push(2);
     heap.remove(node);
     expect(heap.top()).toEqual(2);
 
@@ -140,8 +140,8 @@ describe("Remove", () => {
 
   test("A non-root node", () => {
     const heap = new FibonacciHeap<number>();
-    const node = heap.insert(2);
-    heap.insert(1);
+    const node = heap.push(2);
+    heap.push(1);
     heap.remove(node);
     expect(heap.top()).toEqual(1);
   });
@@ -160,9 +160,9 @@ describe("Debug", () => {
 
   test("An ordinary heap", () => {
     const heap = new FibonacciHeap<number>();
-    heap.insert(3);
-    heap.insert(12);
-    heap.insert(4);
+    heap.push(3);
+    heap.push(12);
+    heap.push(4);
     heap.pop();
     heap.debug();
     expect(console.log).toHaveBeenCalledWith("Current count: 2");
@@ -173,4 +173,14 @@ describe("Debug", () => {
       "key: 12, left: 12, right: 12, degree: 0, parent: 4, children: []"
     );
   });
+});
+
+test("Empty and clear", () => {
+  const heap = new FibonacciHeap<number>();
+  heap.push(3);
+  heap.push(12);
+
+  expect(heap.empty()).toBeFalsy;
+  heap.clear();
+  expect(heap.empty()).toBeTruthy;
 });

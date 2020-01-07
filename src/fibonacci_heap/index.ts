@@ -34,7 +34,7 @@ class FibonacciHeapNode<T> {
 
 class FibonacciHeap<T> {
   count: number;
-  root: FibonacciHeapNode<T> | null;
+  private root: FibonacciHeapNode<T> | null;
   compareFunc: compareFunc<T>;
 
   constructor(compareFunc?: compareFunc<T>) {
@@ -153,6 +153,15 @@ class FibonacciHeap<T> {
     }
   }
 
+  empty(): boolean {
+    return this.root === null;
+  }
+
+  clear() {
+    this.root = null;
+    this.count = 0;
+  }
+
   debug() {
     console.log(`Current count: ${this.count}`);
     if (this.root === null) return;
@@ -190,7 +199,7 @@ class FibonacciHeap<T> {
     return top ? top.key : null;
   }
 
-  insert(key: T): FibonacciHeapNode<T> {
+  push(key: T): FibonacciHeapNode<T> {
     const node = new FibonacciHeapNode(key);
 
     this.insertAt(this.root, node);
