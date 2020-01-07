@@ -1,4 +1,4 @@
-# Data structures
+# Data structures [![codecov](https://codecov.io/gh/lucifer1004/ts-data-structures/branch/master/graph/badge.svg)](https://codecov.io/gh/lucifer1004/ts-data-structures)
 
 ## Stack
 
