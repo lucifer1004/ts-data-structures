@@ -13,6 +13,10 @@ class Stack<T> {
     return this.elements.length === 0;
   }
 
+  size(): number {
+    return this.elements.length;
+  }
+
   push(element: T) {
     this.elements.push(element);
   }

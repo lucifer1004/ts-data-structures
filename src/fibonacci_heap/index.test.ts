@@ -181,6 +181,8 @@ test("Empty and clear", () => {
   heap.push(12);
 
   expect(heap.empty()).toBeFalsy;
+  expect(heap.size()).toEqual(2);
   heap.clear();
   expect(heap.empty()).toBeTruthy;
+  expect(heap.size()).toEqual(0);
 });

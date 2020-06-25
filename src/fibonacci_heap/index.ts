@@ -1,4 +1,4 @@
-type compareFunc<T> = (a: T, b: T) => boolean;
+import { CompareFunc } from "../common/types";
 
 const PHI = (Math.sqrt(5) + 1) / 2;
 
@@ -28,16 +28,16 @@ class FibonacciHeapNode<T> {
       this.right.key
     }, degree: ${this.degree()}, parent: ${
       this.parent ? this.parent.key : null
-    }, children: ${JSON.stringify(this.children.map(child => child.key))}`;
+    }, children: ${JSON.stringify(this.children.map((child) => child.key))}`;
   }
 }
 
 class FibonacciHeap<T> {
   count: number;
   private root: FibonacciHeapNode<T> | null;
-  compareFunc: compareFunc<T>;
+  compareFunc: CompareFunc<T>;
 
-  constructor(compareFunc?: compareFunc<T>) {
+  constructor(compareFunc?: CompareFunc<T>) {
     this.count = 0;
     this.root = null;
     this.compareFunc = (a: T, b: T) => {
@@ -128,7 +128,7 @@ class FibonacciHeap<T> {
   }
 
   private cut(node: FibonacciHeapNode<T>, parent: FibonacciHeapNode<T>) {
-    const index = parent.children.findIndex(child => child === node);
+    const index = parent.children.findIndex((child) => child === node);
     parent.children.splice(index, 1);
     node.parent = null;
     node.mark = false;
@@ -160,6 +160,10 @@ class FibonacciHeap<T> {
   clear() {
     this.root = null;
     this.count = 0;
+  }
+
+  size(): number {
+    return this.count;
   }
 
   debug() {
