@@ -1,5 +1,5 @@
 import { suite, add, cycle, complete, save } from "benny";
-import { SplayTree } from "../";
+import { ScapegoatTree, SplayTree } from "../";
 import { randomInt } from "../common/helper";
 
 enum OPERATION {
@@ -17,7 +17,7 @@ interface GenericMap {
   set: (key: any, value: any) => void;
   delete: (key: any) => void;
 }
-const generateRandomOperations = (num = 100000) => {
+const generateRandomOperations = (num = 10000) => {
   const randomOperations: Operation[] = [];
   const aux = new Set<number>();
   for (let i = 0; i < num; ++i) {
@@ -65,6 +65,10 @@ const testMapImplementations = (cases: { name: string; map: GenericMap }[]) =>
 suite(
   "Random operations",
   ...testMapImplementations([
+    ...[0.6, 0.7, 0.8].map((alpha) => ({
+      name: `ScapegoatTree-${alpha}`,
+      map: new ScapegoatTree<number, number>(alpha),
+    })),
     { name: "SplayTree", map: new SplayTree<number, number>() },
     { name: "Map", map: new Map<number, number>() },
   ]),

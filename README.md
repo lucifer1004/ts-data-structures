@@ -2,6 +2,7 @@
 
 - Stack
 - Fibonacci Heap
+- Scapegoat Tree
 - Splay Tree
 
 ## Stack
@@ -26,6 +27,19 @@
 - [x] decrease_key
 - [x] remove
 - [x] union
+
+## Scapegoat Tree
+
+- [x] new
+- [x] empty
+- [x] size
+- [x] clear
+- [x] entries
+- [x] keys
+- [x] values
+- [x] get
+- [x] set
+- [x] delete
 
 ## Splay Tree
 

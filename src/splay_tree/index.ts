@@ -19,7 +19,7 @@ class SplayTreeNode<K, V> {
 export default class SplayTree<K, V> {
   root: SplayTreeNode<K, V> | null;
   compareFunc: CompareFunc<K>;
-  _size: number;
+  count: number;
 
   private leftRotate(x: SplayTreeNode<K, V>) {
     let y = x.right;
@@ -100,33 +100,6 @@ export default class SplayTree<K, V> {
     return null;
   }
 
-  private insert(key: K, value: V) {
-    let curr = this.root;
-    let p = null;
-    while (curr) {
-      p = curr;
-      if (this.compareFunc(curr.key, key)) {
-        curr = curr.right;
-      } else if (this.compareFunc(key, curr.key)) {
-        curr = curr.left;
-      } else {
-        curr.value = value;
-        return;
-      }
-    }
-    let node = new SplayTreeNode<K, V>(key, value);
-    node.parent = p;
-    if (!p) {
-      this.root = node;
-    } else if (this.compareFunc(p.key, key)) {
-      p.right = node;
-    } else {
-      p.left = node;
-    }
-    this.splay(node);
-    this._size++;
-  }
-
   private subMin(u: SplayTreeNode<K, V> | null): SplayTreeNode<K, V> | null {
     while (u && u.left) {
       u = u.left;
@@ -156,7 +129,7 @@ export default class SplayTree<K, V> {
 
   constructor(compareFunc?: CompareFunc<K>) {
     this.root = null;
-    this._size = 0;
+    this.count = 0;
     this.compareFunc = (a: K, b: K) => {
       if (compareFunc) return compareFunc(a, b);
       else return a < b;
@@ -164,16 +137,16 @@ export default class SplayTree<K, V> {
   }
 
   size(): number {
-    return this._size;
+    return this.count;
   }
 
   empty(): boolean {
-    return this._size === 0;
+    return this.count === 0;
   }
 
   clear() {
     this.root = null;
-    this._size = 0;
+    this.count = 0;
   }
 
   get(key: K): V | null {
@@ -182,7 +155,30 @@ export default class SplayTree<K, V> {
   }
 
   set(key: K, value: V) {
-    this.insert(key, value);
+    let curr = this.root;
+    let p = null;
+    while (curr) {
+      p = curr;
+      if (this.compareFunc(curr.key, key)) {
+        curr = curr.right;
+      } else if (this.compareFunc(key, curr.key)) {
+        curr = curr.left;
+      } else {
+        curr.value = value;
+        return;
+      }
+    }
+    let node = new SplayTreeNode(key, value);
+    node.parent = p;
+    if (!p) {
+      this.root = node;
+    } else if (this.compareFunc(p.key, key)) {
+      p.right = node;
+    } else {
+      p.left = node;
+    }
+    this.splay(node);
+    this.count++;
   }
 
   delete(key: K) {
@@ -208,7 +204,7 @@ export default class SplayTree<K, V> {
         rmin.left.parent = rmin;
       }
     }
-    this._size--;
+    this.count--;
   }
 
   entries(): [K, V][] {
